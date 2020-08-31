@@ -25,11 +25,11 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="phnMinusBtn" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input type="text" id="numOfPhn" class="form-control text-center" value="1">
+                           <button id="phnPlusBtn" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
+                        <h5>$<span id="iPhonePrice">1219</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -43,12 +43,11 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
-
+                           <button id="caseMinusBtn" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input type="text" id="numOfCase" class="form-control text-center" value="1">
+                           <button id="casePlusBtn" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$59</h5>
+                        <h5>$<span id="casePrice">59</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -64,9 +63,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$<span id="subtotal">1278</span></h5>
+                        <h5>$<span id="tax">127.8</span></h5>
+                        <h5>$<span id="total">1405.8</span></h5>
                      </div>
                   </div>
                </div>
@@ -77,6 +76,90 @@
          </div>
       </div>
    </section>
+
+   <script>
+      // iphone 11 event handler
+      const phnPlusBtn = document.getElementById("phnPlusBtn");
+      phnPlusBtn.addEventListener("click", function () {
+         increaseValue("numOfPhn");
+         itemPrice("numOfPhn", "iPhonePrice", 1219);
+         subtotal();
+         tax();
+         total();
+      });
+
+      const phnMinusBtn = document.getElementById("phnMinusBtn");
+      phnMinusBtn.addEventListener("click", function () {
+         decreaseValue("numOfPhn");
+         itemPrice("numOfPhn", "iPhonePrice", 1219);
+         subtotal();
+         tax();
+         total();
+      })
+      // iphone case event handler
+      const casePlusBtn = document.getElementById("casePlusBtn");
+      casePlusBtn.addEventListener("click", function () {
+         increaseValue("numOfCase");
+         itemPrice("numOfCase", "casePrice", 59);
+         subtotal();
+         tax();
+         total();
+      });
+
+      const caseMinusBtn = document.getElementById("caseMinusBtn");
+      caseMinusBtn.addEventListener("click", function () {
+         decreaseValue("numOfCase");
+         itemPrice("numOfCase", "casePrice", 59);
+         subtotal();
+         tax();
+         total();
+      });
+
+      // functions for iPhone 11 and case event handler
+      function getNumOf(id) {
+         const numOf = document.getElementById(id).value;
+         return parseInt(numOf);
+      }
+
+      function increaseValue(id) {
+         const numOf = getNumOf(id);
+         return document.getElementById(id).value = numOf + 1;
+      }
+
+      function decreaseValue(id) {
+         const numOf = getNumOf(id);
+         if (numOf <= 1) {
+            return document.getElementById(id).value = 1;
+         } else {
+            return document.getElementById(id).value = numOf - 1;
+         }
+      }
+
+      function itemPrice(id1, id2, price) {
+         const numOfItem = getNumOf(id1);
+         return document.getElementById(id2).innerText = price * numOfItem;
+      }
+
+      function subtotal() {
+         const iPhoneTotal = itemPrice("numOfPhn", "iPhonePrice", 1219);
+         const caseTotal = itemPrice("numOfCase", "casePrice", 59);
+         const subtotal = iPhoneTotal + caseTotal;
+         return document.getElementById("subtotal").innerText = subtotal;
+      }
+
+      function tax() {
+         const subtotal = parseFloat(document.getElementById("subtotal").innerText);
+         const tax = subtotal / 10;
+         return document.getElementById("tax").innerText = tax;
+      }
+
+      function total() {
+         const subtotal = parseFloat(document.getElementById("subtotal").innerText);
+         const tax = parseFloat(document.getElementById("tax").innerText);
+         const total = subtotal + tax;
+         return document.getElementById("total").innerText = total;
+      }
+   </script>
 </body>
 
 </html>
